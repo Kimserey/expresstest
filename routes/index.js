@@ -12,7 +12,10 @@
 /*global */
 "use strict";
 
-var test;
+var post = require("../models/post"),
+	test, 
+	read_obj, create_obj, 
+	update_obj, delete_obj;
 
 test = function (req, res) {
 	res.end('Hello World'); 

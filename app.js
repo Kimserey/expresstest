@@ -18,7 +18,8 @@ var http    = require('http'),
 	app     = express(),
 	server  = http.createServer(app);
 
-app.get('/', routes.test);
+
+app.get('/test', routes.test);
 
 server.listen(3000);
 console.log("Listening on 3000");

@@ -19,10 +19,10 @@ var expect = require("chai").expect,
 describe("routes", function () {
 	var url = "http://localhost:3000";
 
-	describe("/", function () {
+	describe("/test", function () {
 		it("Should return Hello World", function (done) {
 			request(url)
-				.get("/")
+				.get("/test")
 				.end(function (err, res) {
 					if (err) {
 						throw err;
