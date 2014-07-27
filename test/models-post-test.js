@@ -12,7 +12,7 @@
 /*global describe, it, before, after*/
 "use strict";
 
-describe('Models Post', function() {
+describe('Models post', function() {
 	var post = require('../models/post.js'),
 		should = require('should'),
 		mongoose = require('mongoose'),
@@ -30,7 +30,7 @@ describe('Models Post', function() {
 		done();
 	});
 
-	describe('Create', function () {
+	describe('post#create', function () {
 		var title = 'My title',
 			body = 'Hello world';
 

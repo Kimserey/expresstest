@@ -17,7 +17,8 @@ var post = (function () {
 		Schema = mongoose.Schema,
 		postSchema = new Schema({
 			title : { type: String, required: true },
-			body : { type: String, required: true }
+			body : { type: String, required: true },
+			date : { type: Date, default: Date.now }
 		}),
 		_postModel = mongoose.model('Post', postSchema),
 		_create;
