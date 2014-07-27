@@ -20,21 +20,22 @@ var post = (function () {
 			body : { type: String, required: true },
 			date : { type: Date, default: Date.now }
 		}),
-		_postModel = mongoose.model('Post', postSchema),
+		_PostModel = mongoose.model('Post', postSchema),
 		_create;
 
 	_create = function (title, body, callback) {
-		_postModel.create({
-			title: title,
-			body: body
-		}, function (err) {
+		var post = new _PostModel();
+		post.title = title;
+		post.body = body;
+		post.save(function (err) {
 			if (err) {
 				callback(err);
 			}
 
 			callback(null, {
 				title : title,
-				body : body
+				body : body,
+				date : post.date
 			});
 		});
 	};
