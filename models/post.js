@@ -11,7 +11,6 @@
 
 /*global */
 "use strict";
-	console.log('start post');
 
 var post = (function () {
 	var mongoose = require('mongoose'),
@@ -23,7 +22,6 @@ var post = (function () {
 		_postModel = mongoose.model('Post', postSchema),
 		_create;
 
-	console.log('start post');
 	_create = function (title, body, callback) {
 		_postModel.create({
 			title: title,
