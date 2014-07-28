@@ -15,30 +15,38 @@
 var post = (function () {
 	var mongoose = require('mongoose'),
 		Schema = mongoose.Schema,
+		ObjectId = mongoose.Types.ObjectId,
 		postSchema = new Schema({
 			title : { type: String, required: true },
 			body : { type: String, required: true },
 			date : { type: Date, default: Date.now }
 		}),
 		_PostModel = mongoose.model('Post', postSchema),
-		_create;
+		_create, _read;
 
 	_create = function (title, body, callback) {
 		var post = new _PostModel();
 		post.title = title;
 		post.body = body;
-		post.save(function (err) {
+		post.save(function (err, post) {
 			if (err) {
 				callback(err);
 			}
 
-			callback(null, {
-				id : post._id,
-				title : title,
-				body : body,
-				date : post.date
-			});
+			callback(null, post);
 		});
+	};
+
+	_read = function (id, callback) {
+		_PostModel
+		 .findOne({ _id : new ObjectId(id) })
+		 .exec(function (err, data) {
+		 	if (err) {
+		 		callback(err);
+		 	}
+
+		 	callback(null, data);
+		 });
 	};
 
 	mongoose.connection.on('error', function (err) {
@@ -50,7 +58,8 @@ var post = (function () {
 	});
 
 	return {
-		create : _create
+		create : _create,
+		read : _read
 	};
 }());
 

@@ -16,24 +16,11 @@ describe('Models post', function() {
 	var post = require('../models/post.js'),
 		should = require('should'),
 		mongoose = require('mongoose'),
-		db;
-
-	before(function (done) {
-		mongoose.connect('mongodb://localhost/expresstestDb_test');
-		db = mongoose.connection;
-		done();
-	});
-
-	after(function (done) {
-		db.collections.posts.drop();
-		db.close();
-		done();
-	});
+		db,
+		title = 'My title',
+		body = 'Hello world';
 
 	describe('post#create', function () {
-		var title = 'My title',
-			body = 'Hello world';
-
 		it('Should create a post { title: My title, body: Hello world  }', function (done) {
 			post.create(title, body, function (err, data) {
 				if (err) {
@@ -48,12 +35,37 @@ describe('Models post', function() {
 	});
 
 	describe('post#read', function () {
+		var id;
 		before(function (done) {
-			done();
+			post.create(title, body, function (err, data) {
+				id = data._id;
+				done();
+			});
 		});
 
 		it('Shoud read one post', function (done) {
-			done();
+			post.read(id, function (err, data) {
+				if (err) {
+					throw err;
+				}
+
+				data._id.should.eql(id);
+				data.title.should.equal(title);
+				data.body.should.equal(body);
+				done();
+			});
 		});
+	});
+
+	before(function (done) {
+		mongoose.connect('mongodb://localhost/expresstestDb_test');
+		db = mongoose.connection;
+		done();
+	});
+
+	after(function (done) {
+		db.collections.posts.drop();
+		db.close();
+		done();
 	});
 });
