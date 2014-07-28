@@ -47,9 +47,13 @@ describe('Models post', function() {
 		});
 	});
 
-	// describe('post#get', function () {
-	// 	it('Shoud get all the posts', function (done) {
-			
-	// 	});
-	// });
+	describe('post#read', function () {
+		before(function (done) {
+			done();
+		});
+
+		it('Shoud read one post', function (done) {
+			done();
+		});
+	});
 });

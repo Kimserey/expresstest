@@ -14,10 +14,23 @@
 
 var http    = require('http'),
 	express = require('express'),
+	bodyParser = require('body-parser'),
 	routes  = require('./routes'),
 	app     = express(),
-	server  = http.createServer(app);
+	server  = http.createServer(app),
+	env = process.env.NODE_ENV || 'development';
 
+app.use(bodyParser.urlencoded({
+	extended: true
+}));
+app.use(bodyParser.json());
+
+if (env === 'development') {
+	app.use(function (req, res, next) {
+		console.log('received :' + req.path);
+		next();
+	});
+}
 
 app.all('/:obj_type/*?', function (req, res, next) {
 	console.log('requested obj: ', req.params.obj_type);
@@ -48,4 +61,4 @@ app.post('/:obj_type/delete/:id([0-9]+)', function (req, res) {
 app.get('/test', routes.test);
 
 server.listen(3000);
-console.log("Listening on 3000");
+console.log("Listening on 3000, env : " + env);

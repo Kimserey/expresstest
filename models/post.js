@@ -33,6 +33,7 @@ var post = (function () {
 			}
 
 			callback(null, {
+				id : post._id,
 				title : title,
 				body : body,
 				date : post.date
