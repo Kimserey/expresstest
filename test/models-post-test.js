@@ -9,7 +9,7 @@
   white  : true, unparam : true
 */
 
-/*global describe, it, before, after*/
+/*global describe, it, before, beforeEach, after*/
 "use strict";
 
 describe('Models post', function() {
@@ -21,7 +21,7 @@ describe('Models post', function() {
 		body = 'Hello world';
 
 	describe('post#create', function () {
-		it('Should create a post { title: My title, body: Hello world  }', function (done) {
+		it('Should create a post', function (done) {
 			post.create(title, body, function (err, data) {
 				if (err) {
 					throw err;
@@ -34,24 +34,42 @@ describe('Models post', function() {
 		});
 	});
 
-	describe('post#read', function () {
+	describe('post#update#read#remove', function () {
 		var id;
-		before(function (done) {
-			post.create(title, body, function (err, data) {
-				id = data._id;
-				done();
+
+		describe('#read', function () {
+			it('Shoud read one post', function (done) {
+				post.read(id, function (err, data) {
+					if (err) {
+						throw err;
+					}
+
+					data._id.should.eql(id);
+					data.title.should.equal(title);
+					data.body.should.equal(body);
+					done();
+				});
+			});
+		});
+		
+		describe('#remove', function (done) {
+			it('Should remove one post', function (done) {
+				post.remove(id, function (err, data) {
+					if (err) {
+						throw err;
+					}
+
+					post.read(id, function (err, data) {
+						should.not.exist(data);
+						done();
+					});
+				});
 			});
 		});
 
-		it('Shoud read one post', function (done) {
-			post.read(id, function (err, data) {
-				if (err) {
-					throw err;
-				}
-
-				data._id.should.eql(id);
-				data.title.should.equal(title);
-				data.body.should.equal(body);
+		beforeEach(function (done) {
+			post.create(title, body, function (err, data) {
+				id = data._id;
 				done();
 			});
 		});
@@ -64,7 +82,7 @@ describe('Models post', function() {
 	});
 
 	after(function (done) {
-		db.collections.posts.drop( );
+		db.collections.posts.drop();
 		db.close();
 		done();
 	});

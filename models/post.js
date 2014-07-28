@@ -15,14 +15,13 @@
 var post = (function () {
 	var mongoose = require('mongoose'),
 		Schema = mongoose.Schema,
-		ObjectId = mongoose.Types.ObjectId,
 		postSchema = new Schema({
 			title : { type: String, required: true },
 			body : { type: String, required: true },
 			date : { type: Date, default: Date.now }
 		}),
 		_PostModel = mongoose.model('Post', postSchema),
-		_create, _read;
+		_create, _read, _remove;
 
 	_create = function (title, body, callback) {
 		_PostModel.create({
@@ -39,7 +38,19 @@ var post = (function () {
 
 	_read = function (id, callback) {
 		_PostModel
-		 .findOne({ _id : new ObjectId(id) })
+		 .findById(id)
+		 .exec(function (err, data) {
+		 	if (err) {
+		 		callback(err);
+		 	}
+
+		 	callback(null, data);
+		 });
+	};
+
+	_remove	 = function (id, callback) {
+		_PostModel
+		 .findByIdAndRemove(id)
 		 .exec(function (err, data) {
 		 	if (err) {
 		 		callback(err);
@@ -55,7 +66,8 @@ var post = (function () {
 
 	return {
 		create : _create,
-		read : _read
+		read : _read,
+		remove : _remove
 	};
 }());
 
