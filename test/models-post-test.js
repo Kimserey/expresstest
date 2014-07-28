@@ -64,7 +64,7 @@ describe('Models post', function() {
 	});
 
 	after(function (done) {
-		db.collections.posts.drop();
+		db.collections.posts.drop( );
 		db.close();
 		done();
 	});

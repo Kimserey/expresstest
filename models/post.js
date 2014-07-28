@@ -25,10 +25,10 @@ var post = (function () {
 		_create, _read;
 
 	_create = function (title, body, callback) {
-		var post = new _PostModel();
-		post.title = title;
-		post.body = body;
-		post.save(function (err, post) {
+		_PostModel.create({
+			title : title,
+			body  : body
+		}, function (err, post) {
 			if (err) {
 				callback(err);
 			}
@@ -51,10 +51,6 @@ var post = (function () {
 
 	mongoose.connection.on('error', function (err) {
 		console.log('connection error:', err);
-	});
-
-	mongoose.connection.on('open', function () {
-		console.log('successfully connected to mongodb');
 	});
 
 	return {
