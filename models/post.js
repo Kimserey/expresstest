@@ -21,7 +21,7 @@ var post = (function () {
 			date : { type: Date, default: Date.now }
 		}),
 		_PostModel = mongoose.model('Post', postSchema),
-		_create, _update, _read, _remove;
+		_create, _update, _read, _remove, _list;
 
 	_create = function (title, body, callback) {
 		_PostModel.create({
@@ -75,6 +75,18 @@ var post = (function () {
 		 });
 	};
 
+	_list = function (callback) {
+		_PostModel
+		 .find()
+		 .exec(function (err, data) {
+		 	if(err) {
+		 		callback(err);
+		 	}
+
+		 	callback(null, data);
+		 });
+	};
+
 	mongoose.connection.on('error', function (err) {
 		console.log('connection error:', err);
 	});
@@ -83,7 +95,8 @@ var post = (function () {
 		create : _create,
 		update : _update,
 		read : _read,
-		remove : _remove
+		remove : _remove,
+		list : _list
 	};
 }());
 

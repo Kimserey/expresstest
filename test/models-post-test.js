@@ -9,7 +9,7 @@
   white  : true, unparam : true
 */
 
-/*global describe, it, before, beforeEach, after*/
+/*global describe, it, before, beforeEach, after, afterEach*/
 "use strict";
 
 describe('Models post', function() {
@@ -95,14 +95,53 @@ describe('Models post', function() {
 		});
 	});
 
+	describe('post#list', function (){
+		var ids = [];
+
+		it('Should list all posts', function (done) {
+			post.list(function (err, data) {
+				var data_ids;
+
+				if (err) {
+					throw err;
+				}
+
+				data.should.have.length(5);
+				data_ids = data.map(function (item) { 
+					return item._id; 
+				});
+				ids.should.eql(data_ids);
+				done();
+			});
+		});
+
+		before(function (done) {
+			(function create (count) {
+				if (count === 5) {
+					return done();
+				}
+
+				post.create(title, body, function (err, data) {
+					ids.push(data._id);
+					count += 1;
+					create(count);
+				});	
+			}(0));
+		});
+	});
+
 	before(function (done) {
 		mongoose.connect('mongodb://localhost/expresstestDb_test');
 		db = mongoose.connection;
 		done();
 	});
 
-	after(function (done) {
+	afterEach(function (done){
 		db.collections.posts.drop();
+		done();
+	});
+
+	after(function (done) {
 		db.close();
 		done();
 	});
