@@ -1,5 +1,5 @@
 /*
-* post test
+* post test 
 */
 
 /*jslint         node    : true, continue : true,
@@ -47,9 +47,9 @@ describe('Models post', function() {
 		});
 	});
 
-	describe('post#get', function () {
-		it('Shoud get all the posts', function (done) {
+	// describe('post#get', function () {
+	// 	it('Shoud get all the posts', function (done) {
 			
-		});
-	});
+	// 	});
+	// });
 });
