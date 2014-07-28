@@ -21,19 +21,34 @@ var post = (function () {
 			date : { type: Date, default: Date.now }
 		}),
 		_PostModel = mongoose.model('Post', postSchema),
-		_create, _read, _remove;
+		_create, _update, _read, _remove;
 
 	_create = function (title, body, callback) {
 		_PostModel.create({
 			title : title,
 			body  : body
-		}, function (err, post) {
+		}, function (err, data) {
 			if (err) {
 				callback(err);
 			}
 
-			callback(null, post);
+			callback(null, data);
 		});
+	};
+
+	_update = function (id, propMap, callback) {
+		_PostModel
+		 .findByIdAndUpdate(id, {
+		 	title : propMap.title,
+		 	body : propMap.body
+		 })
+		 .exec(function (err, data) {
+		 	if(err) {
+		 		callback(err);
+		 	}
+
+		 	callback(null, data);
+		 });
 	};
 
 	_read = function (id, callback) {
@@ -66,6 +81,7 @@ var post = (function () {
 
 	return {
 		create : _create,
+		update : _update,
 		read : _read,
 		remove : _remove
 	};

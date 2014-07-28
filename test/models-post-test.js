@@ -37,6 +37,26 @@ describe('Models post', function() {
 	describe('post#update#read#remove', function () {
 		var id;
 
+		describe('#update', function () {
+			it('Should update the post', function (done) {
+				var prop_map = {
+					title : 'Modified title',
+					body : 'Modified hello world'
+				};
+
+				post.update(id, prop_map, function (err, data) {
+					if (err) {
+						throw err;
+					}
+
+					data._id.should.eql(id);
+					data.title.should.equal(prop_map.title);
+					data.body.should.equal(prop_map.body);
+					done();
+				});
+			});
+		});
+
 		describe('#read', function () {
 			it('Shoud read one post', function (done) {
 				post.read(id, function (err, data) {
