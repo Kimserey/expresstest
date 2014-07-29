@@ -1,4 +1,8 @@
 Crud with express
 =================
 
-Learning and testing express framework with nodejs.
+Building CRUD with :
+- Nodejs
+- Express
+- Mongodb/Mongoose
+- Mocha
