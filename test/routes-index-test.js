@@ -29,7 +29,6 @@ describe('routes', function () {
 		it('Should return one post', function (done) {
 			request(apiurl)
 				.get('/posts/' + id)
-  				.expect('Content-Type', /json/)
 				.end(function (err, res) {
 					if (err) {
 						throw err;
@@ -59,21 +58,20 @@ describe('routes', function () {
 	});
 
 	before(function (done) {
-		var postModel = mongoose.model('Post', post.schema);
 		mongoose.connect('mongodb://localhost/expresstestDb_test');
 		db = mongoose.connection;
+		post.create(title, body, function (err, data) {
+			if (err) {
+				throw err;
+			}
 
-		postModel.create({
-			title : title,
-			body  : body
-		}, function (err, data) {
-			id = data._id;
-			done();
+			id = data._id;		
+			done();	
 		});
 	});
 
 	after(function (done){
-		db.collections.posts.drop();
+		// db.collections.posts.drop();
 		done();
 	});
 });

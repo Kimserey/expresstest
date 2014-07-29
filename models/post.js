@@ -52,9 +52,11 @@ var post = (function () {
 	};
 
 	_read = function (id, callback) {
+		console.log(id);
 		_PostModel
 		 .findById(id)
 		 .exec(function (err, data) {
+		 	console.log(data);
 		 	if (err) {
 		 		callback(err);
 		 	}
@@ -96,8 +98,7 @@ var post = (function () {
 		update : _update,
 		read : _read,
 		remove : _remove,
-		list : _list,
-		schema : postSchema
+		list : _list
 	};
 }());
 

@@ -16,21 +16,22 @@ var post = require('../models/post'),
 	express = require('express'),
 	router = express.Router();
 
+router.use(function (req, res, next) {
+	res.contentType('json');
+	next();
+});
+
 router.route('/posts/:id')
-	.all(function (req, res, next) {
-		res.contentType('json');
-		next();
-	})
 	.get(function (req, res, next) {
-		console.log('get ' + req.params.id);
-		res.end('get ' + req.params.id);
+		post.read(req.params.id, function (err, data) {
+			if (err) {
+				res.json(err);
+			}
+			res.json(data);
+		});
 	});
 
 router.route('/posts')
-	.all(function (req, res, next) {
-		res.contentType('json');
-		next();
-	})
 	.get(function (req, res, next) {
 		res.end('get list');
 	})
