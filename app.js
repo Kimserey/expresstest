@@ -15,7 +15,7 @@
 var http    = require('http'),
 	express = require('express'),
 	bodyParser = require('body-parser'),
-	routes  = require('./routes'),
+	router  = require('./routes'),
 	app     = express(),
 	server  = http.createServer(app),
 	env = process.env.NODE_ENV || 'development';
@@ -27,38 +27,17 @@ app.use(bodyParser.json());
 
 if (env === 'development') {
 	app.use(function (req, res, next) {
-		console.log('received :' + req.path);
+		console.log('received : ' + req.method + req.path);
 		next();
 	});
 }
 
-app.all('/:obj_type/*?', function (req, res, next) {
-	console.log('requested obj: ', req.params.obj_type);
-	res.contentType('json');
-	next();
+app.get('/test', function (req, res) {
+	res.end('Hello World');
 });
 
-app.get('/:obj_type/list', function (req, res) {
-	res.send({ title : req.params.obj_type + ' listed' });
-});
-
-app.get('/:obj_type/read/:id([0-9]+)', function (req, res) {
-	res.send({ title : req.params.obj_type + '-' + req.params.id + ' read' });
-});
-
-app.post('/:obj_type/create', function (req, res) {
-	res.send({ title : req.params.obj_type + ' created' });
-});
-
-app.post('/:obj_type/update/:id([0-9]+)', function (req, res) {
-	res.send({ title : req.params.obj_type +  '-' + req.params.id + ' updated' });
-});
-
-app.post('/:obj_type/delete/:id([0-9]+)', function (req, res) {
-	res.send({ title : req.params.objt + '-' + req.params.id + ' deleted' });
-});
-
-app.get('/test', routes.test);
+app.use('/api', router);
 
 server.listen(3000);
 console.log("Listening on 3000, env : " + env);
+

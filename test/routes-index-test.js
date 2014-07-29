@@ -9,28 +9,72 @@
   white  : true, unparam : true
 */
 
-/*global describe, it*/
-"use strict";
+/*global describe, before, after, it*/
+'use strict';
 
-var expect = require("chai").expect,
-	request = require("supertest"),
-	should = require("should");
+var expect = require('chai').expect,
+	post = require('../models/post'),
+	mongoose = require('mongoose'),
+	request = require('supertest'),
+	should = require('should');
 
-describe("routes", function () {
-	var url = "http://localhost:3000";
+describe('routes', function () {
+	var id, db,
+		url = 'http://localhost:3000',
+		apiurl = url + '/api',
+		title = 'First post',
+		body = 'First post body';
 
-	describe("/test", function () {
-		it("Should return Hello World", function (done) {
-			request(url)
-				.get("/test")
+	describe('/get', function () {
+		it('Should return one post', function (done) {
+			request(apiurl)
+				.get('/posts/' + id)
+  				.expect('Content-Type', /json/)
 				.end(function (err, res) {
 					if (err) {
 						throw err;
 					}
 
-					res.text.should.equal("Hello World");
+					res._id.should.eql(id);
+					res.title.should.equal(title);
+					res.body.should.equal(body);
 					done();
 				});
 		});
 	});
+
+	describe('/test', function () {
+		it('Should return Hello World', function (done) {
+			request(url)
+				.get('/test')
+				.end(function (err, res) {
+					if (err) {
+						throw err;
+					}
+
+					res.text.should.equal('Hello World');
+					done();
+				});
+		});
+	});
+
+	before(function (done) {
+		var postModel = mongoose.model('Post', post.schema);
+		mongoose.connect('mongodb://localhost/expresstestDb_test');
+		db = mongoose.connection;
+
+		postModel.create({
+			title : title,
+			body  : body
+		}, function (err, data) {
+			id = data._id;
+			done();
+		});
+	});
+
+	after(function (done){
+		db.collections.posts.drop();
+		done();
+	});
 });
+

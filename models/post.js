@@ -96,7 +96,8 @@ var post = (function () {
 		update : _update,
 		read : _read,
 		remove : _remove,
-		list : _list
+		list : _list,
+		schema : postSchema
 	};
 }());
 

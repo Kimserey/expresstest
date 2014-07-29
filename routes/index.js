@@ -12,15 +12,36 @@
 /*global */
 "use strict";
 
-var post = require("../models/post"),
-	test, 
-	read_obj, create_obj, 
-	update_obj, delete_obj;
+var post = require('../models/post'),
+	express = require('express'),
+	router = express.Router();
 
-test = function (req, res) {
-	res.end('Hello World'); 
-};
+router.route('/posts/:id')
+	.all(function (req, res, next) {
+		res.contentType('json');
+		next();
+	})
+	.get(function (req, res, next) {
+		console.log('get ' + req.params.id);
+		res.end('get ' + req.params.id);
+	});
 
-module.exports = {
-	test : test
-};
+router.route('/posts')
+	.all(function (req, res, next) {
+		res.contentType('json');
+		next();
+	})
+	.get(function (req, res, next) {
+		res.end('get list');
+	})
+	.post(function (req, res, next) {
+		res.end('post ' + req.body.test);
+	})
+	.put(function (req, res, next) {
+		res.end('put ' + req.body.test);
+	})
+	.delete(function (req, res, next) {
+		res.end('delete ' + req.body.test);
+	});
+
+module.exports = router;
