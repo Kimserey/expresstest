@@ -15,7 +15,8 @@
 var http    = require('http'),
 	express = require('express'),
 	bodyParser = require('body-parser'),
-	router  = require('./routes'),
+	connectionString = process.argv[2] || 'mongodb://localhost/expresstestDb_test',
+	router  = require('./routes')(connectionString),
 	app     = express(),
 	server  = http.createServer(app),
 	env = process.env.NODE_ENV || 'development';
@@ -39,5 +40,5 @@ app.get('/test', function (req, res) {
 app.use('/api', router);
 
 server.listen(3000);
-console.log("Listening on 3000, env : " + env);
+console.log("Listening on 3000, env : " + env + ', with connection : ' + connectionString);
 

@@ -13,7 +13,7 @@
 "use strict";
 
 describe('Models post', function() {
-	var post = require('../models/post.js'),
+	var post = require('../models/post.js')('mongodb://localhost/expresstestDb_test'),
 		should = require('should'),
 		mongoose = require('mongoose'),
 		db,
@@ -131,7 +131,6 @@ describe('Models post', function() {
 	});
 
 	before(function (done) {
-		mongoose.connect('mongodb://localhost/expresstestDb_test');
 		db = mongoose.connection;
 		done();
 	});

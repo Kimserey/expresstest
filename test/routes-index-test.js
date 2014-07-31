@@ -12,14 +12,12 @@
 /*global describe, before, after, it*/
 'use strict';
 
-var expect = require('chai').expect,
-	post = require('../models/post'),
-	mongoose = require('mongoose'),
-	request = require('supertest'),
-	should = require('should');
-
 describe('routes', function () {
-	var id, db,
+	var post = require('../models/post')('mongodb://localhost/expresstestDb_test'),
+		mongoose = require('mongoose'),
+		request = require('supertest'),
+		should = require('should'),
+		id, db,
 		url = 'http://localhost:3000',
 		apiurl = url + '/api',
 		title = 'First post',
@@ -34,9 +32,9 @@ describe('routes', function () {
 						throw err;
 					}
 
-					res._id.should.eql(id);
-					res.title.should.equal(title);
-					res.body.should.equal(body);
+					res.body._id.toString().should.eql(id.toString());
+					res.body.title.should.equal(title);
+					res.body.body.should.equal(body);
 					done();
 				});
 		});
@@ -58,7 +56,6 @@ describe('routes', function () {
 	});
 
 	before(function (done) {
-		mongoose.connect('mongodb://localhost/expresstestDb_test');
 		db = mongoose.connection;
 		post.create(title, body, function (err, data) {
 			if (err) {
@@ -71,7 +68,8 @@ describe('routes', function () {
 	});
 
 	after(function (done){
-		// db.collections.posts.drop();
+		db.collections.posts.drop();
+		db.close();
 		done();
 	});
 });

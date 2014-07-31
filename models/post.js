@@ -12,7 +12,7 @@
 /*global */
 "use strict";
 
-var post = (function () {
+var post = function (connectionString) {
 	var mongoose = require('mongoose'),
 		Schema = mongoose.Schema,
 		postSchema = new Schema({
@@ -52,11 +52,9 @@ var post = (function () {
 	};
 
 	_read = function (id, callback) {
-		console.log(id);
 		_PostModel
 		 .findById(id)
 		 .exec(function (err, data) {
-		 	console.log(data);
 		 	if (err) {
 		 		callback(err);
 		 	}
@@ -89,6 +87,9 @@ var post = (function () {
 		 });
 	};
 
+
+	mongoose.connect(connectionString);
+
 	mongoose.connection.on('error', function (err) {
 		console.log('connection error:', err);
 	});
@@ -100,6 +101,6 @@ var post = (function () {
 		remove : _remove,
 		list : _list
 	};
-}());
+};
 
 module.exports = post;
