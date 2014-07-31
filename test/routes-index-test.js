@@ -17,7 +17,7 @@ describe('routes', function () {
 		mongoose = require('mongoose'),
 		request = require('supertest'),
 		should = require('should'),
-		id, db,
+		id, db, createPosts,
 		url = 'http://localhost:3000',
 		apiurl = url + '/api',
 		title = 'First post',
@@ -35,6 +35,19 @@ describe('routes', function () {
 					res.body._id.toString().should.eql(id.toString());
 					res.body.title.should.equal(title);
 					res.body.body.should.equal(body);
+					done();
+				});
+		});
+
+		it('Should return a list', function (done) {
+			request(apiurl)
+				.get('/posts/')
+				.end(function (err, res) {
+					if (err) {
+						throw err;
+					}
+
+					res.body.length.should.equal(5);
 					done();
 				});
 		});
@@ -57,15 +70,22 @@ describe('routes', function () {
 
 	before(function (done) {
 		db = mongoose.connection;
-		post.create(title, body, function (err, data) {
-			if (err) {
-				throw err;
+		createPosts(done);
+	});
+
+	createPosts = function (done) {
+		(function create (count) {
+			if (count === 5) {
+				return done();
 			}
 
-			id = data._id;		
-			done();	
-		});
-	});
+			post.create(title, body, function (err, data) {
+				id = data._id;
+				count += 1;
+				create(count);
+			});	
+		}(0));
+	};
 
 	after(function (done){
 		db.collections.posts.drop();

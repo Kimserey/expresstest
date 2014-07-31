@@ -35,7 +35,14 @@ var routes = function(connectionString) {
 
 	router.route('/posts')
 		.get(function (req, res, next) {
-			res.end('get list');
+			post.list(function (err, data) {
+				if (err) {
+					res.json(err);
+				}
+
+				console.log(data);
+				res.json(data);
+			});
 		})
 		.post(function (req, res, next) {
 			res.end('post ' + req.body.test);
