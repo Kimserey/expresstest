@@ -15,37 +15,42 @@
 var routes = function(connectionString) {
 	var post = require('../models/post')(connectionString),
 		express = require('express'),
-		router = express.Router();
+		router = express.Router(),
+		writeResponse;
 
 	router.use(function (req, res, next) {
 		res.contentType('json');
 		next();
 	});
 
+	writeResponse = function (res, err, data, status) {
+		if (err) {
+			res.json(400, err);
+		}
+
+		res.json(status, data);
+	};
+
 	router.route('/posts/:id')
 		.get(function (req, res, next) {
 			post.read(req.params.id, function (err, data) {
-				if (err) {
-					res.json(err);
-				}
-
-				res.json(data);
+				writeResponse(res, err, data, 200);
 			});
 		});
 
 	router.route('/posts')
 		.get(function (req, res, next) {
 			post.list(function (err, data) {
-				if (err) {
-					res.json(err);
-				}
-
-				console.log(data);
-				res.json(data);
+				writeResponse(res, err, data, 200);
 			});
 		})
 		.post(function (req, res, next) {
-			res.end('post ' + req.body.test);
+			var title = req.body.title,
+				body = req.body.body;
+
+			post.create(title, body, function (err, data) {
+				writeResponse(res, err, data, 201);
+			});
 		})
 		.put(function (req, res, next) {
 			res.end('put ' + req.body.test);

@@ -17,16 +17,17 @@ describe('routes', function () {
 		mongoose = require('mongoose'),
 		request = require('supertest'),
 		should = require('should'),
-		id, db, createPosts,
 		url = 'http://localhost:3000',
 		apiurl = url + '/api',
 		title = 'First post',
-		body = 'First post body';
+		body = 'First post body',
+		id, db, createPosts;
 
-	describe('/get', function () {
+	describe('/get #/posts/:id #/posts', function () {
 		it('Should return one post', function (done) {
 			request(apiurl)
 				.get('/posts/' + id)
+				.expect(200)
 				.end(function (err, res) {
 					if (err) {
 						throw err;
@@ -42,6 +43,7 @@ describe('routes', function () {
 		it('Should return a list', function (done) {
 			request(apiurl)
 				.get('/posts/')
+				.expect(200)
 				.end(function (err, res) {
 					if (err) {
 						throw err;
@@ -53,10 +55,35 @@ describe('routes', function () {
 		});
 	});
 
+	describe('/post #/posts', function () {
+		it('Should create one post', function (done) {
+			var postToCreate = {
+				title : 'Created post',
+				body : 'Created post body'
+			};
+
+			request(apiurl)
+				.post('/posts/')
+				.send(postToCreate)
+				.expect(201)
+				.end(function (err, res) {
+					if (err) {
+						throw err;
+					}
+
+					res.body.should.have.property('_id');
+					res.body.title.should.equal(postToCreate.title);
+					res.body.body.should.equal(postToCreate.body);
+					done();
+				});
+		});
+	});
+
 	describe('/test', function () {
 		it('Should return Hello World', function (done) {
 			request(url)
 				.get('/test')
+				.expect(200)
 				.end(function (err, res) {
 					if (err) {
 						throw err;

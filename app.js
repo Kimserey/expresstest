@@ -24,11 +24,15 @@ var http    = require('http'),
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
+
 app.use(bodyParser.json());
 
 if (env === 'development') {
 	app.use(function (req, res, next) {
 		console.log('received : ' + req.method + req.path);
+		if (req.body) {
+			console.log('received : ' + JSON.stringify(req.body));
+		}
 		next();
 	});
 }
