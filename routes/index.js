@@ -25,10 +25,12 @@ var routes = function(connectionString) {
 
 	writeResponse = function (res, err, data, status) {
 		if (err) {
-			res.json(400, err);
+			res.status(400)
+			   .json(err);
 		}
 
-		res.json(status, data);
+		res.status(status)
+		   .json(data);
 	};
 
 	router.route('/posts/:id')

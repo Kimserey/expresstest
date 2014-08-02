@@ -29,10 +29,11 @@ app.use(bodyParser.json());
 
 if (env === 'development') {
 	app.use(function (req, res, next) {
-		console.log('received : ' + req.method + req.path);
-		if (req.body) {
-			console.log('received : ' + JSON.stringify(req.body));
-		}
+		var date = new Date(),
+			dateString = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+
+		console.log('[' + dateString + '][' + req.method + '] : ' + req.path
+			+ ' --- req body : ' + JSON.stringify(req.body));
 		next();
 	});
 }
