@@ -1,11 +1,60 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Postful</title>
-</head>
-<body>
-	<div>
-		<h1>Hello world</h1>
-	</div>
-</body>
+<!doctype html>
+<html ng-app="postboard">
+	<head>
+		<style>
+			.main-panel {
+				margin: auto;
+				width: 300px;
+			}
+			
+			.ng-invalid.ng-dirty {  
+				border-color: #FA787E; 
+			}
+			.ng-valid.ng-dirty {  
+				border-color: #78FA89; 
+			}
+		</style>
+		<title>Postboard</title>
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
+    	<script src="./js/app.js"></script>
+	</head>
+
+	<body>
+		<div class="panel panel-default main-panel">
+			<div class="container">
+				<h4>Post something</h4>
+				<form name="postForm" ng-controller="PostController as postCtrl" ng-submit="postForm.$valid && postCtrl.addPost()">
+					<div class="input-group">
+						<label>Title :</label>
+						<input class="form-control" type="text" placeholder="enter title..." ng-model="postCtrl.post.title" required/>
+					</div>
+					<div class="input-group">
+						<label>Body :</label>
+						<textarea class="form-control" ng.model="postCtrl.post.body" required></textarea>
+					</div>
+					<div class="input-group">
+						<input class="btn btn-default" type="submit" value="Post" />
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div ng-controller="PostboardController as boardCtrl">
+			<div ng-repeat="post in boardCtrl.posts">
+				<div class="panel panel-default main-panel">
+					<div class="container">
+							<div class="panel-heading">
+								<h3 class="panel-title">{{post.title}}</h3>
+							</div>
+							<div class="panel-body">
+								<p>{{post.body}}</p>
+								<p>{{post.id}}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>
