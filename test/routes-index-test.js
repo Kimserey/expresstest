@@ -28,30 +28,22 @@ describe('routes', function () {
 			request(apiurl)
 				.get('/posts/' + id)
 				.expect(200)
-				.end(function (err, res) {
-					if (err) {
-						throw err;
-					}
-
+				.expect(function (res) {
 					res.body._id.toString().should.eql(id.toString());
 					res.body.title.should.equal(title);
 					res.body.body.should.equal(body);
-					done();
-				});
+				})
+				.end(done);
 		});
 
 		it('Should return a list', function (done) {
 			request(apiurl)
 				.get('/posts/')
 				.expect(200)
-				.end(function (err, res) {
-					if (err) {
-						throw err;
-					}
-
+				.expect(function (res) {
 					res.body.length.should.equal(5);
-					done();
-				});
+				})
+				.end(done);
 		});
 	});
 
@@ -66,16 +58,12 @@ describe('routes', function () {
 				.post('/posts/')
 				.send(postToCreate)
 				.expect(201)
-				.end(function (err, res) {
-					if (err) {
-						throw err;
-					}
-
+				.expect(function (res) {
 					res.body.should.have.property('_id');
 					res.body.title.should.equal(postToCreate.title);
 					res.body.body.should.equal(postToCreate.body);
-					done();
-				});
+				})
+				.end(done);
 		});
 	});
 
@@ -84,14 +72,10 @@ describe('routes', function () {
 			request(url)
 				.get('/test')
 				.expect(200)
-				.end(function (err, res) {
-					if (err) {
-						throw err;
-					}
-
+				.expect(function (res) {
 					res.text.should.equal('Hello World');
-					done();
-				});
+				})
+				.end(done);
 		});
 	});
 
