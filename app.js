@@ -40,5 +40,6 @@ app.get('/test', function (req, res) {
 app.use('/api', router);
 
 server.listen(3000);
+
 console.log("Listening on 3000, env : " + env + ', with connection : ' + connectionString);
 
