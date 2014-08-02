@@ -1,8 +1,12 @@
 Crud with express
 =================
 
-Building CRUD with :
+Building REST API with :
 - Nodejs
 - Express
 - Mongodb/Mongoose
 - Mocha
+
+Building UI with :
+- Angularjs
+- Bootstrap
