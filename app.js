@@ -38,13 +38,17 @@ if (env === 'development') {
 	});
 }
 
-app.get('/test', function (req, res) {
-	res.end('Hello World');
-});
-
 app.use('/api', router);
 
 server.listen(3000);
 
-console.log("Listening on 3000, env : " + env + ', with connection : ' + connectionString);
+console.log(
+	'\n\n'
+	+ '------------------\n' 
+	+ '- Server started -\n'
+	+ '------------------\n' 
+	+ 'port           : ' + 3000 + ',\n' 
+	+ 'env            : '  + env  + ',\n'
+	+ 'MongoDB string : ' + connectionString 
+	+ '\n\n');
 

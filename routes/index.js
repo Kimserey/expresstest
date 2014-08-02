@@ -23,27 +23,17 @@ var routes = function(connectionString) {
 		next();
 	});
 
-	writeResponse = function (res, err, data, status) {
-		if (err) {
-			res.status(400)
-			   .json(err);
-		}
-
-		res.status(status)
-		   .json(data);
-	};
-
 	router.route('/posts/:id')
 		.get(function (req, res, next) {
 			post.read(req.params.id, function (err, data) {
-				writeResponse(res, err, data, 200);
+				writeResponse(res, err, data);
 			});
 		});
 
 	router.route('/posts')
 		.get(function (req, res, next) {
 			post.list(function (err, data) {
-				writeResponse(res, err, data, 200);
+				writeResponse(res, err, data);
 			});
 		})
 		.post(function (req, res, next) {
@@ -55,11 +45,25 @@ var routes = function(connectionString) {
 			});
 		})
 		.put(function (req, res, next) {
-			res.end('put ' + req.body.test);
+			post.update(req.body.id, req.body, function (err, data) {
+				writeResponse(res, err, data, 200, 404);
+			});
 		})
 		.delete(function (req, res, next) {
-			res.end('delete ' + req.body.test);
+			post.remove(req.body.id, function (err, data) {
+				writeResponse(res, err, data, 200, 404);
+			});
 		});
+
+	writeResponse = function (res, err, data, successStatus, errorStatus) {
+		if (err) {
+			res.status(errorStatus || 400)
+			   .json(err);
+		}
+
+		res.status(successStatus || 200)
+		   .json(data);
+	};
 
 	return router;
 };
