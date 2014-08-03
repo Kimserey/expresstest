@@ -15,22 +15,30 @@
 	var app = angular.module('postboard', [ ]);
 
 	app.controller('PostboardController', function ($scope, postService) {
-		this.posts = [];
+		this.posts = [{title: 'Toto is back', body: 'Today is the return of the master chef!'}];
+		$scope.x = 'hello';
 
-		postService.getPosts().then(function (posts) {
-		});
+		// postService.getPosts().then(function (posts) {
+		// 	posts.forEach(function (post) {
+		// 		// $scope.posts.push(post);
+		// 	})
+		// 	$scope.x = 'http done';
+		// });
 	});
 
 	app.controller('PostController', function ($scope, postService) {
 		this.post = {};
 
 		this.addPost = function () {
-			postService.sayHello(this.post);
+			this.post = {};
+		};
+
+		this.reset = function () {
 			this.post = {};
 		};
 	});
 
-	app.factory('postService', function ($http, $window) {
+	app.factory('postService', function ($http) {
 		return {
 			getPosts : function () {
 				return $http
@@ -38,10 +46,6 @@
 					.then(function (res) {
 						return res.data;
 					});
-			},
-			sayHello : function (post) {
-				$window.alert(post);
-				$window.alert('Hello ' + post.title + ' ' + post.body);
 			}
 		};
 	});

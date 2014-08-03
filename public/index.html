@@ -2,9 +2,8 @@
 <html ng-app="postboard">
 	<head>
 		<style>
-			.align-center {
-				margin: auto;
-				width: 300px;
+			body {
+				padding:25px;
 			}
 
 			.button-width {
@@ -12,34 +11,43 @@
 			}
 		</style>
 		<title>Postboard</title>
-		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
     	<script src="./js/app.js"></script>
 	</head>
 
 	<body>
-		<div class="panel panel-default align-center">
-			<div class="container">
-				<h3>Post something</h3>
-				<form name="postForm" ng-controller="PostController as postCtrl" ng-submit="postCtrl.addPost()">
-					<div class="form-group">
-						<input placeholder="Title" class="form-control" type="text" ng-model="postCtrl.post.title" required/>
+		<div class="row">
+			<div class="col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h1 class="panel-title">Post something</h1>
 					</div>
-					<div class="form-group">
-						<textarea placeholder="Text" class="form-control" ng.model="postCtrl.post.body" required></textarea>
+					<div class="panel-body">
+						<form ng-controller="PostController as postCtrl" ng-submit="postCtrl.addPost()">
+							<div class="form-group">
+								<input placeholder="Title" class="form-control" type="text" ng-model="postCtrl.post.title" required />
+							</div>
+							<div class="form-group">
+								<textarea placeholder="Text" class="form-control" ng-model="postCtrl.post.body" required></textarea>
+							</div>
+							<div class="form-group">
+								<input class="btn btn-primary button-width" type="submit" value="Post" />
+								<button class="btn btn-danger button-width">
+									Reset
+								</button>
+							</div>
+						</form>
 					</div>
-					<div class="form-group">
-						<input class="btn btn-primary button-width" type="submit" value="Post" />
-						<input class="btn btn-danger button-width" type="submit" value="Reset" />
-					</div>
-				</form>
+				</div>
 			</div>
 		</div>
-
-		<div ng-controller="PostboardController as boardCtrl">
-			<div ng-repeat="post in boardCtrl.posts">
-				<div class="panel panel-default main-panel">
-					<div class="container">
+		
+		<div class="row">
+			<div class="col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">
+				<div ng-controller="PostboardController as boardCtrl">
+					<div ng-repeat="post in boardCtrl.posts">
+						<div class="panel panel-info">
 							<div class="panel-heading">
 								<h3 class="panel-title">{{post.title}}</h3>
 							</div>
