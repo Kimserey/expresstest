@@ -18,7 +18,6 @@
 		this.posts = [];
 
 		postService.getPosts().then(function (posts) {
-			alert(JSON.stringify(posts));
 		});
 	});
 
@@ -26,13 +25,12 @@
 		this.post = {};
 
 		this.addPost = function () {
-			alert(JSON.stringify(this.post));
-			postService.sayHello();
+			postService.sayHello(this.post);
 			this.post = {};
 		};
 	});
 
-	app.factory('postService', function ($http) {
+	app.factory('postService', function ($http, $window) {
 		return {
 			getPosts : function () {
 				return $http
@@ -40,6 +38,10 @@
 					.then(function (res) {
 						return res.data;
 					});
+			},
+			sayHello : function (post) {
+				$window.alert(post);
+				$window.alert('Hello ' + post.title + ' ' + post.body);
 			}
 		};
 	});

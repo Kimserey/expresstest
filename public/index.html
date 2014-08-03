@@ -2,16 +2,13 @@
 <html ng-app="postboard">
 	<head>
 		<style>
-			.main-panel {
+			.align-center {
 				margin: auto;
 				width: 300px;
 			}
-			
-			.ng-invalid.ng-dirty {  
-				border-color: #FA787E; 
-			}
-			.ng-valid.ng-dirty {  
-				border-color: #78FA89; 
+
+			.button-width {
+				width: 80px;
 			}
 		</style>
 		<title>Postboard</title>
@@ -21,20 +18,19 @@
 	</head>
 
 	<body>
-		<div class="panel panel-default main-panel">
+		<div class="panel panel-default align-center">
 			<div class="container">
-				<h4>Post something</h4>
-				<form name="postForm" ng-controller="PostController as postCtrl" ng-submit="postForm.$valid && postCtrl.addPost()">
-					<div class="input-group">
-						<label>Title :</label>
-						<input class="form-control" type="text" placeholder="enter title..." ng-model="postCtrl.post.title" required/>
+				<h3>Post something</h3>
+				<form name="postForm" ng-controller="PostController as postCtrl" ng-submit="postCtrl.addPost()">
+					<div class="form-group">
+						<input placeholder="Title" class="form-control" type="text" ng-model="postCtrl.post.title" required/>
 					</div>
-					<div class="input-group">
-						<label>Body :</label>
-						<textarea class="form-control" ng.model="postCtrl.post.body" required></textarea>
+					<div class="form-group">
+						<textarea placeholder="Text" class="form-control" ng.model="postCtrl.post.body" required></textarea>
 					</div>
-					<div class="input-group">
-						<input class="btn btn-default" type="submit" value="Post" />
+					<div class="form-group">
+						<input class="btn btn-primary button-width" type="submit" value="Post" />
+						<input class="btn btn-danger button-width" type="submit" value="Reset" />
 					</div>
 				</form>
 			</div>
