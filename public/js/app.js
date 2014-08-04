@@ -15,21 +15,26 @@
 	var app = angular.module('postboard', [ ]);
 
 	app.controller('PostboardController', function ($scope, postService) {
-		this.posts = [{title: 'Toto is back', body: 'Today is the return of the master chef!'}];
-		$scope.x = 'hello';
+		// this.posts = [
+		// {title: 'Toto is back', body: 'Today is the return of the master chef!'},
+		// {title: 'Toto is back', body: 'Today is the return of the master chef!'},
+		// {title: 'Toto is back', body: 'Today is the return of the master chef!Today is the return of the master chef!Today is the return of the master chef!Today is the return of the master chef!'}];
 
-		// postService.getPosts().then(function (posts) {
-		// 	posts.forEach(function (post) {
-		// 		// $scope.posts.push(post);
-		// 	})
-		// 	$scope.x = 'http done';
-		// });
+		this.posts = [];
+
+		postService.getPosts().then(function (posts) {
+			posts.forEach(function (post) {
+				$scope.posts.push(post);
+			});
+		});
 	});
 
 	app.controller('PostController', function ($scope, postService) {
 		this.post = {};
 
 		this.addPost = function () {
+			alert(JSON.stringify($scope.posts));
+			$scope.posts.push({title: 'hhhh', body: 'ewfew'});
 			this.post = {};
 		};
 

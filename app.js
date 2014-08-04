@@ -40,6 +40,7 @@ if (env === 'development') {
 	});
 }
 
+app.use(express.static(__dirname + '/bower_components'));
 app.use(express.static(__dirname + '/public'));
 app.use('/api', router);
 // ----- End Middleware -----

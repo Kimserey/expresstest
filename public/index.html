@@ -12,19 +12,22 @@
 		</style>
 		<title>Postboard</title>
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
+		<script src="/angularjs/angular.min.js"></script>
     	<script src="./js/app.js"></script>
 	</head>
 
-	<body>
+	<body ng-controller="PostboardController as boardCtrl">
 		<div class="row">
 			<div class="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
 						<h1 class="panel-title">Post something</h1>
 					</div>
-					<div class="panel-body">
-						<form ng-controller="PostController as postCtrl" ng-submit="postCtrl.addPost()">
+					<div class="panel-body" ng-controller="PostController as postCtrl">
+						<div>
+							<h4>Title {{post.title}}</h4>
+						</dib>
+						<form ng-submit="postCtrl.addPost(postCtrl.post)">
 							<div class="form-group">
 								<input placeholder="Title" class="form-control" type="text" ng-model="postCtrl.post.title" required />
 							</div>
@@ -45,16 +48,14 @@
 		
 		<div class="row">
 			<div class="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
-				<div ng-controller="PostboardController as boardCtrl">
-					<div ng-repeat="post in boardCtrl.posts">
-						<div class="panel panel-info">
-							<div class="panel-heading">
-								<h3 class="panel-title">{{post.title}}</h3>
-							</div>
-							<div class="panel-body">
-								<p>{{post.body}}</p>
-								<p>{{post.id}}</p>
-							</div>
+				<div ng-repeat="post in boardCtrl.posts">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<h3 class="panel-title">{{post.title}}</h3>
+						</div>
+						<div class="panel-body">
+							<p>{{post.body}}</p>
+							<p>{{post.id}}</p>
 						</div>
 					</div>
 				</div>

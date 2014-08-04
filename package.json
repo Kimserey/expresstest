@@ -9,6 +9,7 @@
   "dependencies": {
     "body-parser": "^1.5.2",
     "express": "^4.7.2",
+    "grunt": "^0.4.5",
     "mocha": "^1.21.3",
     "mongoose": "^3.8.14",
     "should": "^4.0.4",
