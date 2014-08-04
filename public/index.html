@@ -6,7 +6,7 @@
 				padding:25px;
 			}
 
-			.button-width {
+			.button-md {
 				width: 80px;
 			}
 		</style>
@@ -16,27 +16,35 @@
     	<script src="./js/app.js"></script>
 	</head>
 
-	<body ng-controller="PostboardController as boardCtrl">
+	<body ng-controller="PostboardController">
 		<div class="row">
 			<div class="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
 						<h1 class="panel-title">Post something</h1>
 					</div>
-					<div class="panel-body" ng-controller="PostController as postCtrl">
+					<div class="panel-body" ng-controller="PostController">
 						<div>
-							<h4>Title {{post.title}}</h4>
+							<div class="row">
+								<div class="col-xs-3 col-sm-3 col-md-3">
+									<h4>Preview</h4>
+								</div>
+								<div class="col-xs-9 col-sm-9 col-md-9">
+									<strong>Title : {{post.title}}</strong>
+									<p>Text : {{post.body}}</p>
+								</div>
+							</div>
 						</dib>
-						<form ng-submit="postCtrl.addPost(postCtrl.post)">
+						<form ng-submit="addPost(post)">
 							<div class="form-group">
-								<input placeholder="Title" class="form-control" type="text" ng-model="postCtrl.post.title" required />
+								<input placeholder="Title" class="form-control" type="text" ng-model="post.title" required />
 							</div>
 							<div class="form-group">
-								<textarea placeholder="Text" class="form-control" ng-model="postCtrl.post.body" required></textarea>
+								<textarea placeholder="Text" class="form-control" ng-model="post.body" required></textarea>
 							</div>
 							<div class="form-group">
-								<input class="btn btn-primary button-width" type="submit" value="Post" />
-								<button class="btn btn-danger button-width">
+								<input class="btn btn-primary button-md" type="submit" value="Post" />
+								<button class="btn btn-danger button-md">
 									Reset
 								</button>
 							</div>
@@ -48,7 +56,7 @@
 		
 		<div class="row">
 			<div class="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
-				<div ng-repeat="post in boardCtrl.posts">
+				<div ng-repeat="post in posts">
 					<div class="panel panel-info">
 						<div class="panel-heading">
 							<h3 class="panel-title">{{post.title}}</h3>

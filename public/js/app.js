@@ -14,44 +14,35 @@
 (function () {
 	var app = angular.module('postboard', [ ]);
 
-	app.controller('PostboardController', function ($scope, postService) {
-		// this.posts = [
-		// {title: 'Toto is back', body: 'Today is the return of the master chef!'},
-		// {title: 'Toto is back', body: 'Today is the return of the master chef!'},
-		// {title: 'Toto is back', body: 'Today is the return of the master chef!Today is the return of the master chef!Today is the return of the master chef!Today is the return of the master chef!'}];
+	app.controller('PostboardController', ['$scope', 'postService', function ($scope, service) {
+		$scope.posts = [];
 
-		this.posts = [];
-
-		postService.getPosts().then(function (posts) {
-			posts.forEach(function (post) {
-				$scope.posts.push(post);
-			});
-		});
-	});
-
-	app.controller('PostController', function ($scope, postService) {
-		this.post = {};
-
-		this.addPost = function () {
-			alert(JSON.stringify($scope.posts));
-			$scope.posts.push({title: 'hhhh', body: 'ewfew'});
-			this.post = {};
-		};
-
-		this.reset = function () {
-			this.post = {};
-		};
-	});
-
-	app.factory('postService', function ($http) {
-		return {
-			getPosts : function () {
-				return $http
-					.get('/api/posts/')
-					.then(function (res) {
-						return res.data;
+		service.getPosts()
+				.then(function (res) {
+					res.data.forEach(function (data) {
+						$scope.posts.push({ title : data.title, body : data.body });
 					});
+				});
+	}]);
+
+	app.controller('PostController', ['$scope', 'postService', function ($scope, postService) {
+		$scope.addPost = function () {
+			$scope.posts.push($scope.post);
+			$scope.reset();
+		};
+
+		$scope.reset = function () {
+			$scope.post = {};
+		};
+
+		$scope.reset();
+	}]);
+
+	app.factory('postService', ['$http', function ($http) {
+		return {
+			getPosts : function (cb) {
+				 return $http.get('/api/posts/');
 			}
 		};
-	});
+	}]);
 }());
