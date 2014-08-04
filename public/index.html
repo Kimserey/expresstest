@@ -25,14 +25,9 @@
 					</div>
 					<div class="panel-body" ng-controller="PostController">
 						<div>
-							<div class="row">
-								<div class="col-xs-3 col-sm-3 col-md-3">
-									<h4>Preview</h4>
-								</div>
-								<div class="col-xs-9 col-sm-9 col-md-9">
-									<strong>Title : {{post.title}}</strong>
-									<p>Text : {{post.body}}</p>
-								</div>
+							<div>
+								<strong>Title : {{post.title}}</strong>
+								<p>Text : {{post.body}}</p>
 							</div>
 						</dib>
 						<form ng-submit="addPost(post)">
@@ -63,7 +58,9 @@
 						</div>
 						<div class="panel-body">
 							<p>{{post.body}}</p>
-							<p>{{post.id}}</p>
+						</div>
+						<div class="panel-footer">
+							ref : {{post.id}}
 						</div>
 					</div>
 				</div>

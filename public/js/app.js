@@ -17,17 +17,32 @@
 	app.controller('PostboardController', ['$scope', 'postService', function ($scope, service) {
 		$scope.posts = [];
 
-		service.getPosts()
+		service.list()
 				.then(function (res) {
 					res.data.forEach(function (data) {
-						$scope.posts.push({ title : data.title, body : data.body });
+						$scope.posts.push({ 
+							id: data._id, 
+							title : data.title, 
+							body : data.body 
+						});
 					});
 				});
 	}]);
 
-	app.controller('PostController', ['$scope', 'postService', function ($scope, postService) {
+	app.controller('PostController', ['$scope', 'postService', function ($scope, service) {
 		$scope.addPost = function () {
-			$scope.posts.push($scope.post);
+			
+			service
+			 .post($scope.post.title, $scope.post.body)
+			 .then(function (res) {
+			 	var posted = res.data;
+
+			 	$scope.posts.push({ 
+			 		id: posted._id, 
+			 		title: posted.title,
+			 		body: posted.body
+			 	});
+			 });
 			$scope.reset();
 		};
 
@@ -40,8 +55,29 @@
 
 	app.factory('postService', ['$http', function ($http) {
 		return {
-			getPosts : function (cb) {
+			list : function () {
 				 return $http.get('/api/posts/');
+			},
+			get : function (id) {
+				return $http.get('/api/posts/' + id);
+			},
+			post : function (title, body) {
+				return $http.post('/api/posts', { 
+					title: title, 
+					body: body 
+				});
+			},
+			put : function (id, title, body) {
+				return $http.put('/api/posts', { 
+					id: id, 
+					title: title, 
+					body: body
+				});
+			},
+			remove : function (id) {
+				return $http.delete('/api/posts', {
+					id : id
+				});
 			}
 		};
 	}]);
