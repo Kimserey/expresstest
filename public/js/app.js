@@ -30,10 +30,10 @@
 	}]);
 
 	app.controller('PostController', ['$scope', 'postService', function ($scope, service) {
-		$scope.addPost = function () {
+		$scope.addPost = function (post) {
 			
 			service
-			 .post($scope.post.title, $scope.post.body)
+			 .post(post.title, post.body)
 			 .then(function (res) {
 			 	var posted = res.data;
 
