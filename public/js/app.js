@@ -36,10 +36,11 @@
 			service
 			 .remove(id)
 			 .then(function (res) {
-			 	alert(JSON.stringify(res));
-			 	$scope.posts = $scope.posts.filter(function (post) { 
-			 		return post.id !== id;
-			 	});
+			 	if (res) {
+				 	$scope.posts = $scope.posts.filter(function (post) { 
+				 		return post.id !== res.data._id;
+				 	});
+			 	}
 			 });
 		};
 	}]);
@@ -90,9 +91,7 @@
 				});
 			},
 			remove : function (id) {
-				return $http.delete('/api/posts', {
-					id : id
-				});
+				return $http.delete('/api/posts/' + id);
 			}
 		};
 	}]);
