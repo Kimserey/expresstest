@@ -26,8 +26,8 @@
 					<div class="panel-body" ng-controller="PostController">
 						<div>
 							<div>
-								<strong>Title : {{post.title}}</strong>
-								<p>Text : {{post.body}}</p>
+								<h3>{{post.title}}</h3>
+								<p>{{post.body}}</p>
 							</div>
 						</dib>
 						<form ng-submit="addPost(post)">
@@ -61,6 +61,10 @@
 						</div>
 						<div class="panel-footer">
 							ref : {{post.id}}
+							<div class="pull-right">
+								<span class="glyphicon glyphicon-wrench"></span>
+								<span class="glyphicon glyphicon-trash"></span>
+							</div>
 						</div>
 					</div>
 				</div>
