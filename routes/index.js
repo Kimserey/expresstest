@@ -28,6 +28,11 @@ var routes = function(connectionString) {
 			post.read(req.params.id, function (err, data) {
 				writeResponse(res, err, data);
 			});
+		})
+		.delete(function (req, res, next) {
+			post.remove(req.params.id, function (err, data) {
+				writeResponse(res, err, data, 200, 404);
+			});
 		});
 
 	router.route('/posts')
@@ -48,12 +53,8 @@ var routes = function(connectionString) {
 			post.update(req.body.id, req.body, function (err, data) {
 				writeResponse(res, err, data, 200, 404);
 			});
-		})
-		.delete(function (req, res, next) {
-			post.remove(req.body.id, function (err, data) {
-				writeResponse(res, err, data, 200, 404);
-			});
 		});
+
 
 	writeResponse = function (res, err, data, successStatus, errorStatus) {
 		if (err) {

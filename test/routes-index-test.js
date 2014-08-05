@@ -119,8 +119,7 @@ describe('routes', function () {
 	describe('#DELETE /posts existing post', function () {
 		it('Should delete and return the deleted post', function (done) {
 			request(apiurl)
-				.delete('/posts/')
-				.send({ id : testPost.id })
+				.delete('/posts/' + testPost.id)
 				.expect(200)
 				.expect(function (res) {
 					res.body._id.toString().should.eql(testPost.id.toString());

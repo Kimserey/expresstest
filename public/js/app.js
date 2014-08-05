@@ -27,6 +27,21 @@
 						});
 					});
 				});
+
+		$scope.editPost = function (id) {
+			alert('edit ' + id);
+		};
+
+		$scope.deletePost = function (id) {
+			service
+			 .remove(id)
+			 .then(function (res) {
+			 	alert(JSON.stringify(res));
+			 	$scope.posts = $scope.posts.filter(function (post) { 
+			 		return post.id !== id;
+			 	});
+			 });
+		};
 	}]);
 
 	app.controller('PostController', ['$scope', 'postService', function ($scope, service) {
